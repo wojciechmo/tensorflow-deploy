@@ -1,0 +1,6 @@
+Top 5 predicitions:
+--class: tiger, panthera tigris --probability: 0.977186
+--class: tiger cat --probability: 0.0227771
+--class: jaguar, panther --probability: 1.71264e-05
+--class: leopard, panthera pardus --probability: 7.21847e-06
+--class: tabby, tabby cat --probability: 1.14536e-06
