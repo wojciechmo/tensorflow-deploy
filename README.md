@@ -1,8 +1,8 @@
 ### Deploy TensorFlow models trained with Python using Java, C and C++. 
 
 Three models:
-- simple_graph: Python -> Java/C/C++
-- resnet_v2_50: -> Java/C++
+- simple_graph: Python -> Java / C / C++
+- resnet_v2_50: -> Java / C++
 - big_gan_512: Python -> C
 
 #### Train with TensorFlow Python API and save frozen model:
@@ -10,14 +10,14 @@ Three models:
 2. Install TensorFlow Hub: https://www.tensorflow.org/hub/<br/>
 3. Install OpenCV: https://pypi.org/project/opencv-python/<br/>
 4. Train and save frozen model:<br/>
-```$ python train.py```<br />
+```$ python train.py```<br/>
 
 #### Deploy using TensorFlow C++ API:
 C++ API: https://www.tensorflow.org/guide/extend/cc<br/>
 1. Build OpenCV from source: https://opencv.org/releases.html (-D CMAKE_INSTALL_PREFIX=/tmp/opencv-3.4/install) and add install directory to path: PATH="$PATH:/tmp/opencv-3.4/install"<br />
-2. Install Bazel: https://docs.bazel.build/versions/master/install-ubuntu.html<br />
-3. Clone TensorFlow GitHub repository: https://github.com/tensorflow/tensorflow<br />
-4. Place BUILD and main.cpp files in tensorflow/cc/project directory<br />
+2. Install Bazel: https://docs.bazel.build/versions/master/install-ubuntu.html<br/>
+3. Clone TensorFlow GitHub repository: https://github.com/tensorflow/tensorflow<br/>
+4. Place BUILD and main.cpp files in tensorflow/cc/project directory<br/>
 5. Add the following to main repository WORKSPACE file:
 ```
 new_local_repository(
