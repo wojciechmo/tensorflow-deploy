@@ -8,7 +8,7 @@ public class Main
     {
         // load model saved with tf.saved_model.simple_save function
         // for model saved with tf.train.write_graph function use ReadBinaryProto from JavaCpp package
-        SavedModelBundle smb = SavedModelBundle.load("/tmp/python/model_java", "serve");
+        SavedModelBundle smb = SavedModelBundle.load("/tmp/python/saved_model", "serve");
         Session session = smb.session();
 
         float[] X = new float[]{2.0f, 2.0f, 2.0f, 2.0f};
