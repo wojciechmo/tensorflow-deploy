@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
 import {loadFrozenModel} from '@tensorflow/tfjs-converter';
+// Load GPU binding
+// import '@tensorflow/tfjs-node-gpu';
 import "babel-polyfill"; // to import regeneratorRuntime for async function
 
 async function main() 
