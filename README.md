@@ -1,7 +1,7 @@
 ### Deploy TensorFlow models trained with Python using Java, C and C++. 
 
 Three models:
-- simple_graph: Python -> Java / C / C++
+- simple_graph: Python -> Java / JavaScript / C / C++
 - resnet_v2_50: -> Java / C++
 - big_gan_512: Python -> C
 
@@ -74,5 +74,40 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/tmp/opencv-3.4/install/lib
 ```g++ -I/tmp/tf-1.12/include -L/tmp/tf-1.12/lib main.cpp -I/tmp/opencv-3.4/install/include -L/tmp/opencv-3.4/install/lib -ltensorflow -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -o main```
 6. Run executable:<br/>
 ```./main```
+
+#### Deploy using TensorFlow.js:
+TensorFlow.js: https://js.tensorflow.org
+1. Install Yarn (and Node.js): https://yarnpkg.com/en. If using Ubuntu 18 first remove cmdtree: sudo apt remove cmdtree.
+2. Install tfjs-converter: https://github.com/tensorflow/tfjs-converter
+3. Install http-server:
+```
+sudo apt install npm
+sudo npm install http-server -g
+```
+4. Convert an existing TensorFlow model to TensorFlow.js Web format:
+```
+tensorflowjs_converter \
+    --input_format=tf_saved_model \
+    --output_node_names='y' \
+    --saved_model_tags=serve \
+    /tmp/python/saved_model \
+    /tmp/javascript/model
+```
+5. For loadFrozenModel function to work with local files, those files needs to be served by a server:<br/>
+```http-server -c1 --cors /tmp/javascript/model -p 8081```<br/>
+Add origin=* to URL queries parameters to solve missing CORS 'Access-Control-Allow-Origin' header.
+
+6. Start a local development HTTP server which watches the filesystem for changes:
+```
+yarn
+yarn watch
+```
+7. Generate dist/ folder which contains the build artifacts and can be used for deployment:
+```
+yarn
+yarn build
+```
+8. Use GPU package for for higher performance:
+```yarn add @tensorflow/tfjs-node-gpu```
 
 Note that when deploying model with tfhub module on remote computer, data from /tmp/tfhub_modules (or directory set with TFHUB_CACHE_DIR) must be copied under exactly the same absolute path in remote computer. It can't be done with manipulating TFHUB_CACHE_DIR env because tfhub directory absolute path is hardcoded inside model when it's saved.
