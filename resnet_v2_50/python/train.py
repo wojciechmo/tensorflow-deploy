@@ -57,7 +57,7 @@ if __name__ == "__main__":
 		print '--class:', name, '--probability:', prob
 
 	# for Java deployment
-	tf.saved_model.simple_save(sess, './model_java', inputs={"x": x}, outputs={"predictions": predictions, "probabilities": probabilities})
+	tf.saved_model.simple_save(sess, './saved_model', inputs={"x": x}, outputs={"predictions": predictions, "probabilities": probabilities})
 
 	# for C/C++ deployment, it can also be used for Java but in such scenario one should use JavaCpp package to load model
 	tf.train.write_graph(sess.graph_def, './model/', 'graph.pb', as_text=False)
