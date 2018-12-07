@@ -1,4 +1,4 @@
-### Deploy TensorFlow models trained with Python using Java, C and C++. 
+### Deploy TensorFlow models trained with Python using Java, JavaScript, C and C++. 
 
 Three models:
 - simple_graph: Python -> Java / JavaScript / C / C++
