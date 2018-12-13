@@ -2,7 +2,7 @@
 
 Three models:
 - simple_graph: Python -> Java / JavaScript / C / C++
-- resnet_v2_50: Python -> Java / C++
+- resnet_v2_50: Python -> Java / JavaScript / C++
 - big_gan_512: Python -> C
 
 #### Train with TensorFlow Python API and save frozen model:
