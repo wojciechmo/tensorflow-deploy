@@ -77,6 +77,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/tmp/opencv-3.4/install/lib
 
 #### Deploy using TensorFlow.js:
 TensorFlow.js: https://js.tensorflow.org
+
+##### Option 1 - via yarn (simple_graph)
 1. Install Yarn (and Node.js): https://yarnpkg.com/en. If using Ubuntu 18 first remove cmdtree: sudo apt remove cmdtree.
 2. Install tfjs-converter: https://github.com/tensorflow/tfjs-converter
 3. Install http-server:
@@ -109,5 +111,32 @@ yarn build
 ```
 8. Use GPU package for for higher performance:
 ```yarn add @tensorflow/tfjs-node-gpu```
+
+##### Option 2- via script tags (resnet_v2_50)
+
+1. Build opencv.js: https://docs.opencv.org/3.4/d4/da1/tutorial_js_setup.html
+
+2. Place opencv.js file in the same directory as index.html and index.js (or upload it on the internet)
+
+3. Install tfjs-converter: https://github.com/tensorflow/tfjs-converter
+
+3. Train and save frozen model:
+```$ python train.py```
+
+4. Convert saved model to tfjs format:
+```
+tensorflowjs_converter \
+--input_format=tf_saved_model \
+--output_node_names='probabilities, predictions_renamed' \
+--saved_model_tags=serve \
+/tmp/resnet_v2_50/python/saved_model \
+/tmp/resnet_v2_50/javascript/model
+```
+5. Copy imagenet_names.txt to /tmp/resnet_v2_50/javascript/model
+
+6. For javascript to work with local files, those files needs to be served by a server:
+http-server -c1 --cors /tmp/javascript/model -p 8080
+
+7. Run index.html in the browser
 
 Note that when deploying model with tfhub module on remote computer, data from /tmp/tfhub_modules (or directory set with TFHUB_CACHE_DIR) must be copied under exactly the same absolute path in remote computer. It can't be done with manipulating TFHUB_CACHE_DIR env because tfhub directory absolute path is hardcoded inside model when it's saved.
