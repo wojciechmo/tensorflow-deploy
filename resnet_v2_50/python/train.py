@@ -37,6 +37,8 @@ if __name__ == "__main__":
 	probabilities = tf.nn.softmax(logits, axis=1, name='probabilities')
 	_, predictions = tf.nn.top_k(logits, k=5, name='predictions')
 
+	predictions_renamed = tf.identity(predictions, name='predictions_renamed')
+
 	img = cv2.imread('tiger.jpg')
 	x_data = preprocess_image(img)
 
@@ -54,10 +56,15 @@ if __name__ == "__main__":
 
 	print 'Top 5 predicitions:'
 	for idx, prob, name in zip(top_k, top_k_probs, top_k_names):
-		print '--class:', name, '--probability:', prob
-
-	# for Java deployment
-	tf.saved_model.simple_save(sess, './saved_model', inputs={"x": x}, outputs={"predictions": predictions, "probabilities": probabilities})
-
+		print '--class:', name, '--probability:', prob'
+		
 	# for C/C++ deployment, it can also be used for Java but in such scenario one should use JavaCpp package to load model
 	tf.train.write_graph(sess.graph_def, './model/', 'graph.pb', as_text=False)
+
+	# for Java deployment
+	# tf.saved_model.simple_save(sess, './saved_model', inputs={"x": x}, outputs={"predictions": predictions, "probabilities": probabilities})
+
+	# for JavaScript deployment
+	# 1. it's impossible to pass predicitons:1 instead of predicions:0 to tfjs converter, hence tf.identity
+	# 2. no idea why these strings are passed as keys to inputs and outputs arguments, both tensorflowjs_converter as well as javascript itself can only reference operations by oryginal graph names
+	# tf.saved_model.simple_save(sess, './saved_model', inputs={"x": x}, outputs={"predictions": predictions_renamed, "probabilities" : probabilities})
