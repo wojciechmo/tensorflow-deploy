@@ -86,7 +86,7 @@ TensorFlow.js: https://js.tensorflow.org
 sudo apt install npm
 sudo npm install http-server -g
 ```
-4. Convert an existing TensorFlow model to TensorFlow.js Web format:
+4. Convert existing TensorFlow model to TensorFlow.js Web format:
 ```
 tensorflowjs_converter \
     --input_format=tf_saved_model \
@@ -119,9 +119,6 @@ yarn build
 2. Place opencv.js file in the same directory as index.html and index.js (or upload it on the internet)
 
 3. Install tfjs-converter: https://github.com/tensorflow/tfjs-converter
-
-3. Train and save frozen model:
-```$ python train.py```
 
 4. Convert saved model to tfjs format:
 ```
