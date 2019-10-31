@@ -1,6 +1,6 @@
 ### Deploy TensorFlow models trained with Python using Java, JavaScript, C and C++. 
 
-Three models:
+Four models:
 - simple_graph: Python -> Java / JavaScript / C / C++
 - resnet_v2_50: Python -> Java / JavaScript / C++
 - big_gan_512: Python -> C
