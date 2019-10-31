@@ -4,12 +4,15 @@ Three models:
 - simple_graph: Python -> Java / JavaScript / C / C++
 - resnet_v2_50: Python -> Java / JavaScript / C++
 - big_gan_512: Python -> C
+- mobilenet_v2: Python -> Android
 
-#### Train with TensorFlow Python API and save frozen model:
-1. Install TensorFlow: https://www.tensorflow.org/install<br/>
-2. Install TensorFlow Hub: https://www.tensorflow.org/hub/<br/>
-3. Install OpenCV: https://pypi.org/project/opencv-python/<br/>
-4. Train and save frozen model:<br/>
+#### Develop using TensorFlow Python API and save frozen model:
+1. Get ImageNet classnames (for Android only):<br/>
+wget -P /tmp/assets https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt<br/>
+2. Create virtualenv and install dependencies:<br/>
+```virtualenv --system-site-packages -p python3.6 ./venv && source ./venv/bin/activate```<br/>
+```pip install opencv-python tensorflow tensorflow_hub```<br/>
+3. Train and save frozen model (TFLite model for Android):<br/>
 ```$ python train.py```<br/>
 
 #### Deploy using TensorFlow C++ API:
@@ -137,3 +140,40 @@ http-server -c1 --cors /tmp/javascript/model -p 8080
 7. Run index.html in the browser
 
 Note that when deploying model with tfhub module on remote computer, data from /tmp/tfhub_modules (or directory set with TFHUB_CACHE_DIR) must be copied under exactly the same absolute path in remote computer. It can't be done with manipulating TFHUB_CACHE_DIR env because tfhub directory absolute path is hardcoded inside model when it's saved.
+
+#### Deploy using TFLite Android API::
+https://www.tensorflow.org/lite
+
+1. Install Android Studio through Ubuntu Software
+2. Install Android SDK: Tools -> SDK Manager -> Android SDK -> SDK Tools
+3. Install emulator and create virtual device (optional): Tools -> AVD Manager
+4. Install Android OpenCV:
+
+- Download OpenCV for Android: 
+wget https://sourceforge.net/projects/opencvlibrary/files/opencv-android/3.4.1/opencv-3.4.1-android-sdk.zip/download && unzip download -d /tmp
+
+- Import OpenCV module:
+File -> New -> Import Module add /tmp/OpenCV-android-sdk/sdk/java
+and resolve automatically using Android Studio (first sync project, then do refactor)
+
+- Add OpenCV module to project:
+File -> Project Structure -> app Dependencies -> add OpenCV module with + mark
+
+- Copy libs to Android app:
+cp -r /tmp/OpenCV-android-sdk/sdk/native/libs {app_dir}//app/src/main
+mv {app_dir}//app/src/main/libs {app_dir}//app/src/main/jniLibs
+
+- Change build.gradle(Module:openCV) so it uses the same compileSdkVersion and targetSdkVersion as build.gradle(Module:app)
+
+5. Install Android TensorFlow:
+
+- Add implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
+to dependencies in build.gradle(Module:app) and sync project
+
+6. Copy assets (ImageNetLabels.txt and model.tflite) to Android app:
+cp -r /tmp/assets {app_dir}/app/src/main
+
+7. Set mobile into developer state and load application
+
+8. Add camera persmissions:
+Device settings -> Applications -> App -> Permissions -> turn on Camera (or use Dexter to ask from application)
