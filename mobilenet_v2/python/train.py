@@ -63,5 +63,12 @@ if __name__ == '__main__':
 	for idx in output_data[0]:
 		print (imagenet_labels[idx])
 		
-
-
+	# saved model
+	# model._set_inputs(mockup_input_data)
+	# model.save('saved_model')
+	# loaded = tf.saved_model.load("saved_model")
+	# infer = loaded.signatures["serving_default"]
+	# y = infer(input_data_tensor)
+	# for idx in y['output_1'][0]:
+	# 	print (imagenet_labels[idx])
+		
